@@ -30,7 +30,7 @@ Struct with fields:
 * maturity
 * tenor
 * valuedate
-* marketpx
+* px
 * impliedvola
 * strike
 * position (receiver/payer)
