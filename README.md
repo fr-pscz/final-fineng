@@ -21,7 +21,7 @@ function D = businessConvert(D, CONV)
 %   OUTPUTS:
 %   D: first available business day
 
-internalVariable = f(D);
+internalVariable       = f(D);
 myNewStruct.namedfield = internalVariable;
 
 D(~isbusday(D)) = busdate(D(~isbusday(D)),{CONV});
