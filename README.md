@@ -21,3 +21,15 @@ Struct with fields:
 * marketpx
 * coupon
 * paymentdates
+
+### Swaptions
+
+Struct with fields:
+
+* maturity
+* tenor
+* valuedate
+* marketpx
+* impliedvola
+* strike
+* position (receiver/payer)
