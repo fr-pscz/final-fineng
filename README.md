@@ -27,6 +27,16 @@ end % businessConvert
 
 ## Data format
 
+### OIS Rates
+
+Struct with fields:
+
+* maturity
+* valuedate
+* settledate
+* rate
+
+
 ### Curves
 
 Struct with two fields:
@@ -42,6 +52,7 @@ Struct with fields:
 
 * maturity
 * valuedate
+* settledate
 * px
 * coupon
 * yield
@@ -54,6 +65,7 @@ Struct with fields:
 * maturity
 * tenor
 * valuedate
+* settledate
 * px
 * impliedvola
 * strike
