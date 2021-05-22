@@ -88,8 +88,8 @@ Struct with fields:
 
 Struct with fields:
 
-* `maturity`
-* `tenor`
+* `optionmaturity`
+* `swapmaturity`
 * `valuedate`
 * `settledate`
 * `px`
