@@ -95,4 +95,4 @@ Struct with fields:
 * `px`
 * `impliedvola`
 * `strike`
-* `position (receiver/payer)`
+* `position` (receiver/payer)
