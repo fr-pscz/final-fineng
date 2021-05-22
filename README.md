@@ -12,4 +12,12 @@ Struct with two fields:
 
 Applies to Zeta curve, Discount curve, Pseudodiscount curve, Beta spreads.
 
-## Bond
+### Bonds
+
+Struct with fields:
+
+* maturity
+* valuedate
+* marketpx
+* coupon
+* paymentdates
