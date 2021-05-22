@@ -20,6 +20,7 @@ Struct with fields:
 * valuedate
 * marketpx
 * coupon
+* yield
 * paymentdates
 
 ### Swaptions
