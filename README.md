@@ -18,7 +18,7 @@ Struct with fields:
 
 * maturity
 * valuedate
-* marketpx
+* px
 * coupon
 * yield
 * paymentdates
