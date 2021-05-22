@@ -93,6 +93,6 @@ Struct with fields:
 * `valuedate`
 * `settledate`
 * `px`
-* `impliedvola`
+* `impliedvol`
 * `strike`
 * `position` (receiver/payer)
