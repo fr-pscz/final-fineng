@@ -3,7 +3,9 @@ Final project Financial Engineering
 
 ## Style guidelines
 
-Variables and functions inside a filespace with **camelCase** variables passed as input or output with all caps.
+Variables and functions inside a filespace with **camelCase**.
+Variables passed as input or output with all caps.
+Fields for structs all lowercase.
 
 Example:
 
@@ -20,6 +22,8 @@ function D = businessConvert(D, CONV)
 %   D: first available business day
 
 internalVariable = f(D);
+myNewStruct.namedfield = internalVariable;
+
 D(~isbusday(D)) = busdate(D(~isbusday(D)),{CONV});
 
 end % businessConvert
@@ -36,6 +40,26 @@ Struct with fields:
 * settledate
 * rate
 
+### Swaps
+
+Struct with fields:
+
+* maturity
+* valuedate
+* settledate
+* fixeddates
+* floatdates
+* rate
+
+### FRAs
+
+Struct with fields:
+
+* valuedate
+* settledate
+* startdate
+* enddate
+* rate
 
 ### Curves
 
