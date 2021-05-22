@@ -16,12 +16,12 @@ function D = businessConvert(D, CONV)
 %BUSINESSCONVERT Automatic date rolling
 %
 %   INPUTS:
-%   D:    array of dates to convert
-%   CONV: business day convention. Possible values: follow, modifiedfollow,
-%         previous, modifiedprevious
+%       D:    array of dates to convert
+%       CONV: business day convention. Possible values: follow, modifiedfollow,
+%             previous, modifiedprevious
 %
 %   OUTPUTS:
-%   D: first available business day
+%       D: first available business day
 
 internalVariable       = f(D);
 myNewStruct.namedfield = internalVariable;
