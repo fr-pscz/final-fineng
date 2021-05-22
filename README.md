@@ -1,6 +1,30 @@
 # final-fineng
 Final project Financial Engineering
 
+## Style guidelines
+
+Variables and functions inside a filespace with **camelCase** variables passed as input or output with all caps.
+
+Example:
+
+```
+function D = businessConvert(D, CONV)
+%BUSINESSCONVERT Automatic date rolling
+%
+%   INPUTS:
+%   D:    array of dates to convert
+%   CONV: business day convention. Possible values: follow, modifiedfollow,
+%         previous, modifiedprevious
+%
+%   OUTPUTS:
+%   D: first available business day
+
+internalVariable = f(D);
+D(~isbusday(D)) = busdate(D(~isbusday(D)),{CONV});
+
+end % businessConvert
+```
+
 ## Data format
 
 ### Curves
