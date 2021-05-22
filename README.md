@@ -4,7 +4,9 @@ Final project Financial Engineering
 ## Style guidelines
 
 Variables and functions inside a filespace with **camelCase**.
+
 Variables passed as input or output with all caps.
+
 Fields for structs all lowercase.
 
 Example:
@@ -35,38 +37,38 @@ end % businessConvert
 
 Struct with fields:
 
-* maturity
-* valuedate
-* settledate
-* rate
+* `maturity`
+* `valuedate`
+* `settledate`
+* `rate`
 
 ### Swaps
 
 Struct with fields:
 
-* maturity
-* valuedate
-* settledate
-* fixeddates
-* floatdates
-* rate
+* `maturity`
+* `valuedate`
+* `settledate`
+* `fixeddates`
+* `floatdates`
+* `rate`
 
 ### FRAs
 
 Struct with fields:
 
-* valuedate
-* settledate
-* startdate
-* enddate
-* rate
+* `valuedate`
+* `settledate`
+* `startdate`
+* `enddate`
+* `rate`
 
 ### Curves
 
 Struct with two fields:
 
-* t
-* y
+* `t`
+* `y`
 
 Applies to Zeta curve, Discount curve, Pseudodiscount curve, Beta spreads.
 
@@ -74,23 +76,23 @@ Applies to Zeta curve, Discount curve, Pseudodiscount curve, Beta spreads.
 
 Struct with fields:
 
-* maturity
-* valuedate
-* settledate
-* px
-* coupon
-* yield
-* paymentdates
+* `maturity`
+* `valuedate`
+* `settledate`
+* `px`
+* `coupon`
+* `yield`
+* `paymentdates`
 
 ### Swaptions
 
 Struct with fields:
 
-* maturity
-* tenor
-* valuedate
-* settledate
-* px
-* impliedvola
-* strike
-* position (receiver/payer)
+* `maturity`
+* `tenor`
+* `valuedate`
+* `settledate`
+* `px`
+* `impliedvola`
+* `strike`
+* `position (receiver/payer)`
