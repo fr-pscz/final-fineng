@@ -4,7 +4,7 @@ function B = findDiscount(DATES, DISCOUNT)
 %
 % INPUTS:
 %        DATES:    array containing dates of interest in datenum format
-%        DISCOUNT: struct containing dates and the discount curve
+%        DISCOUNT: struct containing dates and the discount curve where the first one is the settlement date
 %
 % OUTPUTS:
 %        B: array containing the discounts of interest
