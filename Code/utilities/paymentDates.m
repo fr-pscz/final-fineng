@@ -1,7 +1,7 @@
 function D = paymentDates(START, END, FREQ, CONV)
 %PAYMENTDATES Compute payment dates at regular intervals.
 %   INPUTS:
-%       START: first payment date (or lower limit for payment dates)
+%       START: first payment date
 %       END:   last payment date
 %       FREQ:  number of payments per year
 %       CONV:  business day convention (follow, modifiedfollow,
@@ -10,18 +10,25 @@ function D = paymentDates(START, END, FREQ, CONV)
 %   OUTPUTS:
 %       D:    payment dates
 
+
 %% Generate payment dates
 % compute upper bound for the number of payment years
 nYears = ceil(yearfrac(START,END,1));
 % generate payment dates backwards from END (included)
-D = datenum(datetime(END, "ConvertFrom", "datenum") - calmonths(flip(0:12/FREQ:12*nYears))');
+D = datenum(datetime(START, "ConvertFrom", "datenum") + calmonths(0:12/FREQ:12*nYears)');
 
 %% Trimming
-% depending on rounding, D may contain payment dates before START
-% we are only interested in dates after START
-D = D(D >= START);
+% depending on rounding, D may contain payment dates after END
+D = D(D <= END);
 
 %% Holidays
 % payments can only take place on business days
-D = dateRolling(D, CONV);
+END = dateRolling(END, CONV);
+D   = dateRolling(D,   CONV);
+
+%% Error handling
+if D(end) ~= END
+    error('ERROR: START and END dates do not match specified FREQ.')
+end
+
 end
