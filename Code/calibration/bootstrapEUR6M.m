@@ -43,6 +43,7 @@ rateSwap = rateSwap(2:end);
 
 act360=2;
 act365= 3;
+eu30 = 6;
 
 %%% STEP 1: compute P(t_0, 6m) with EUR6m 
 
@@ -72,7 +73,7 @@ pBack = interpP  ./  ( 1 ./ (1 + deltaFra .* rateFra(1:5)) );
 %%% STEP 4: compute P(t_0, 2y), ...., P(t_0, 12y) with swaps
 
 % Computing fixed-legs of swaps (from 1y to 12y)
-deltaSwap = yearfrac([settleDateSwap; maturitySwap(2:end-1)], maturitySwap(2:end), act360); deltaSwap(length(rateSwap)+1) = 0;
+deltaSwap = yearfrac([settleDateSwap; maturitySwap(2:end-1)], maturitySwap(2:end), eu30); deltaSwap(length(rateSwap)+1) = 0;
 fixedLeg=zeros(12,1);
 bpv = deltaSwap(1) * DISCOUNTS.y(8); % 8 is the index of OIS discount curve correspoding to 1y
 
