@@ -9,9 +9,11 @@ function B = findDiscount(DATES, DISCOUNT)
 % OUTPUTS:
 %        B: array containing the discounts of interest
 
-zRates = disc2zero(DISCOUNT.y(2:end),DISCOUNT.t(2:end),DISCOUNT.t(1));
+zRatesConv = 3;    % Act/365
+compoundConv = -1; % Continuous
+
+zRates = disc2zero(DISCOUNT.y(2:end),DISCOUNT.t(2:end),DISCOUNT.t(1),compoundConv,zRatesConv);
 zRateDate = interp1(DISCOUNT.t(2:end),zRates,DATES);
-B = zero2disc(zRateDate,DATES,DISCOUNT.t(1));
+B = zero2disc(zRateDate,DATES,DISCOUNT.t(1),compoundConv,zRatesConv);
 
 end % findDiscount
-
