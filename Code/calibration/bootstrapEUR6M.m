@@ -80,37 +80,38 @@ fixedLeg   = rateSwap .* cumsum(partialBPV);
 
 % Computing the discounts inverting the formula via interpolation
 pSwap    = ones(length(rateSwap)-1, 1);
-diffNPV  = fixedLeg(2:end) - fixedLeg(1:end-1);
+diffNPV  = diff(fixedLeg);
 
 % Yearfractions and Discounts on floating payment dates
 floatingDates = paymentDates(settleDateSwap, maturitySwap(end), 2, 'follow');
 floatingDates = floatingDates(3:end); % don't need settle and 6M
+floatingDelta = yearfrac(floatingDates(1:end-1), floatingDates(2:end), convInterp);
 floatingDates = floatingDates(2:end); % only need payments from 1.5Y onwards
 % Discounts for floating payments
 pFloating = findDiscount(floatingDates, DISCOUNTS);
 
-% useful function handle for vectorization
-z = @(x,T) -log(x)./yearfrac(settleDateSwap,T,convInterp);
 % initialize last known pseudodiscount
 lastD = p12M;
 
 % Inverting the NPV formula of the swap
+deltaDiscount = yearfrac(settleDateSwap,floatingDates,convInterp);
+deltaMid      = yearfrac(maturitySwap(2:end-1), maturitySwap(3:end), convInterp);
+deltaP        = yearfrac(settleDateSwap, maturitySwap(2:end), convInterp);
+
 for ii = 1:length(rateSwap)-1
    
-midPseudoDisc = @(x) exp(-(yearfrac(maturitySwap(ii), floatingDates(ii*2 - 1), convInterp).*...
-    (z(x,maturitySwap(ii+1)) - z(lastD,maturitySwap(ii)))./yearfrac(maturitySwap(ii), maturitySwap(ii+1), convInterp) +...
-    z(lastD,maturitySwap(ii))).*yearfrac(settleDateSwap, floatingDates(ii*2 - 1), convInterp));
+    alpha2 = (deltaDiscount(2*ii-1)*floatingDelta(2*ii-1)) / (deltaMid(ii)*deltaP(ii+1));
+    alpha1 = (-deltaDiscount(2*ii-1)*floatingDelta(2*ii-1)) / (deltaMid(ii)*deltaP(ii));
+    k1 = deltaDiscount(2*ii-1)/deltaP(ii);
+    k = lastD ^ (k1 + alpha1); 
+    w3 = pFloating(2*ii-1); 
+    w4 = pFloating(2*ii);
+    f = @(x) k * w3 * x^(alpha2-1) - w3 +  ( (w4 * lastD) / k ) * x^(-alpha2) - w4 - diffNPV(ii); 
+    b = fzero(f, [0.1 1]);
+    pSwap(ii) = b;
+    lastD = pSwap(ii);
 
-midPayment = @(x) lastD./midPseudoDisc(x) - 1;
-endPayment = @(x) midPseudoDisc(x)./x     - 1;
-
-f = @(x) pFloating(ii*2 - 1).*midPayment(x) - pFloating(ii*2).*endPayment(x) - diffNPV(ii);
-
-pSwap(ii) = fzero(f, [0.1 1]);
-
-lastD = pSwap(ii);
 end
-
 
 %% Assigning outputs
 
