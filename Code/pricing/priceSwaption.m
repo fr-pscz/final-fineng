@@ -40,7 +40,7 @@ m = 1; % in the EUR market
 
 % swaption price
 % MKTSWAPTION.px = fixedDiscounts(end)*c(m,swapRate)*((strikeATM - swapRate)*normcdf(-d) + MKTSWAPTION.impliedvol*sqrt(ttm)*normpdf(d));
-price = fixedDiscounts(end)*c(m,sRate)*((strikeATM - sRate)*normcdf(-d) + MKTSWAPTION.impliedvol*sqrt(ttm)*normpdf(d));
+price = fixedDiscounts(1)*c(m,sRate)*((strikeATM - sRate)*normcdf(-d) + MKTSWAPTION.impliedvol*sqrt(ttm)*normpdf(d));
 
 
 end % priceSwaption
