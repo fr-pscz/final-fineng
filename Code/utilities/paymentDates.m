@@ -14,7 +14,7 @@ function D = paymentDates(START, END, FREQ, CONV)
 %% Generate payment dates
 % compute upper bound for the number of payment years
 nYears = ceil(yearfrac(START,END,1));
-% generate payment dates backwards from END (included)
+% generate payment dates by adding calmonths
 D = datenum(datetime(START, "ConvertFrom", "datenum") + calmonths(0:12/FREQ:12*nYears)');
 
 %% Trimming
