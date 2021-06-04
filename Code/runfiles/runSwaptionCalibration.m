@@ -5,7 +5,7 @@ addpath('calibration')
 addpath('pricing')
 addpath('data')
 
-%% Load data 
+%% Load data
 load('market.mat')
 load('curves.mat')
 
