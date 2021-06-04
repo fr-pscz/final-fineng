@@ -1,4 +1,4 @@
-function S = computeS(MKTSWAPTION, PD, P);
+function S = computeS(MKTSWAPTION, PD, P)
 % function that computes the underlying swap rate at option maturity
 %
 % INPUTS:
@@ -16,23 +16,21 @@ function S = computeS(MKTSWAPTION, PD, P);
 %        paymentDates
 %        findDiscount
 
-act365 = 3;
-act360 = 2;
+volaConv  = 3; % Act/365
+fixedConv = 6; %  30/360
 
 %% Payment dates and discounts
 
 % generate two arrays: one containing the dates of the floating payments and
 % the other with the corresponding discounts
 freqFloating = 2;
-% floatingDates = paymentDates(MKTSWAPTION.optionmaturity, MKTSWAPTION.swapmaturity, freqFloating, 'follow');
-floatingDates = paymentDatesSwaption(MKTSWAPTION, freqFloating);
+floatingDates = paymentDates(MKTSWAPTION.optionmaturity, MKTSWAPTION.swapmaturity, freqFloating, 'follow');
 floatingDiscounts = findDiscount(floatingDates,PD);
 
 % generate two arrays: one containing the dates of the fixed payments and
 % the other with the corresponding discounts
 freqFixed = 1;
-% fixedDates = paymentDates(MKTSWAPTION.optionmaturity, MKTSWAPTION.swapmaturity, freqFixed, 'follow');
-fixedDates = paymentDatesSwaption(MKTSWAPTION, freqFixed);
+fixedDates = paymentDates(MKTSWAPTION.optionmaturity, MKTSWAPTION.swapmaturity, freqFixed, 'follow');
 fixedDiscounts = findDiscount(fixedDates,PD);
 
 %% Fixed and floating forward discounts
@@ -44,24 +42,24 @@ fwdFloatingDiscountsAlfa = floatingDiscounts/floatingDiscounts(1);
 
 
 %% xi, v, zeta and nu
-ttm = yearfrac(MKTSWAPTION.settledate,MKTSWAPTION.optionmaturity,act365); % time to maturity
+ttm = yearfrac(MKTSWAPTION.settledate,MKTSWAPTION.optionmaturity,volaConv); % time to maturity
 
 xi = @(p) (sqrt(p(2).^2*(1 - exp(-2*p(1).*ttm))/(2*p(1)))).*(p(1)~=0) + sqrt(p(2).*ttm).*(p(1)==0);
 
-dFixed = yearfrac(MKTSWAPTION.optionmaturity, fixedDates(2:end), act365);
+dFixed = yearfrac(MKTSWAPTION.optionmaturity, fixedDates(2:end), volaConv);
 vFixed = @(p) xi(p).*(1 - exp(-p(1).*dFixed))./p(1);
 zetaFixed = @(p) (1 - p(3)).*vFixed(p);
 
-dFloating = yearfrac(MKTSWAPTION.optionmaturity, floatingDates(2:end), act365);
+dFloating = yearfrac(MKTSWAPTION.optionmaturity, floatingDates(2:end), volaConv);
 vFloating = @(p) xi(p).*(1 - exp(-p(1).*dFloating))./p(1);
 zetaFloating = @(p) (1 - p(3)).*vFloating(p);
 
 % v relative to the floating leg starting from option maturity and the
 % following time instant in order to compute nu
-dFloatingAlfa = yearfrac(MKTSWAPTION.optionmaturity, floatingDates(1:end-1), act365);
+dFloatingAlfa = yearfrac(MKTSWAPTION.optionmaturity, floatingDates(1:end-1), volaConv);
 vFloatingAlfa = @(p) xi(p).*(1 - exp(-p(1).*dFloatingAlfa))./p(1);
 
-dFloatingAlfaShift = yearfrac(MKTSWAPTION.optionmaturity, floatingDates(2:end), act365);
+dFloatingAlfaShift = yearfrac(MKTSWAPTION.optionmaturity, floatingDates(2:end), volaConv);
 vFloatingAlfaShift = @(p) xi(p)*(1 - exp(-p(1).*dFloatingAlfaShift))./p(1);
 
 
@@ -80,7 +78,7 @@ spread = fwdFloatingDiscounts./fwdFloatingPseudoDiscounts;
 
 %% S
 % delta computed between two following dates
-delta = yearfrac(fixedDates(1:end-1),fixedDates(2:end),act360);
+delta = yearfrac(fixedDates(1:end-1),fixedDates(2:end),fixedConv);
 
 
 S = @(x,p) (sum(fwdFloatingDiscountsAlfa(1:end-1).*spread.*exp(-nu(p).*x - nu(p).^2/2)) ...
@@ -88,6 +86,3 @@ S = @(x,p) (sum(fwdFloatingDiscountsAlfa(1:end-1).*spread.*exp(-nu(p).*x - nu(p)
             /sum(delta.*fwdFixedDiscountsAlfa.*exp(-zetaFixed(p).*x - zetaFixed(p).^2/2));
         
 end % computeS
-
-
-
