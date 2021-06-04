@@ -1,46 +1,40 @@
-function price = priceSwaption(MKTSWAPTION, DISCOUNT, PSEUDODISCOUNT)
-% function that computes the price of a swaption using the Bachelier
-% formula
+function PX = priceSwaption(MKTSWAPTION, PD, P)
+%PRICESWAPTION Computes the price of a swaption using the Bachelier model
 %
-% INPUTS: 
-%        MKTSWAPTION: struct of the swaption containing valuedate,
-%        settledate, optionmaturity, swapmaturity, impliedvol
-%        DISCOUNT: struct containing dates and the discount curve where the
-%        first element is the settlement date
-%        PSEUDODISCOUNT: struct containing dates and the pseudodiscount
-%        curve where the first element is the settlement date
+% INPUTS:
+% MKTSWAPTION: struct with following fields:
+%             - settledate
+%             - optionmaturity
+%             - swapmaturity
+%             - strike
+%             - impliedvol
 %
-% OUTPUTS:
-%        MKTSWAPTION: same struct as the one in input but with the
-%        additional field px relative to the market price of the swaption
-% 
-% FUNCTIONS: 
-%        paymentDates: it computes payment dates at regular intervals
-%        findDiscount: computes the discounts of an array of dates given the
-%        discount curve and its corresponding dates
-
+%          PD: struct with dates and OIS-adjusted discounts
+%           P: struct with dates and EUR6M pseudodiscounts 
+%
+% OUTPUTS: 
+%        PX: scalar price
+%
+% FUNCTIONS:
+%  swapRate, paymentDates, findDiscount
 
 % daycount conventions and tenor of the swaption
-act365 = 3;
-tenor = yearfrac(MKTSWAPTION.optionmaturity,MKTSWAPTION.swapmaturity,act365);
+optionConv = 3;
+tenor = round(yearfrac(MKTSWAPTION.optionmaturity,MKTSWAPTION.swapmaturity,optionConv));
 
-sRate = swapRate(MKTSWAPTION, DISCOUNT, PSEUDODISCOUNT);
+sRate = swapRate(MKTSWAPTION, PD, P);
 
 %% Swaption Price
-freqFixed = 1;
-fixedDates = paymentDates(MKTSWAPTION.optionmaturity, MKTSWAPTION.swapmaturity, freqFixed, 'follow');
-fixedDiscounts = findDiscount(fixedDates,DISCOUNT);
-
-c = @(m,s) 1./s*(1 - 1/(1+s./m)^(tenor));
-strikeATM = sRate; 
-
-ttm = yearfrac(MKTSWAPTION.settledate,MKTSWAPTION.optionmaturity,act365); % time to maturity
-d = (sRate - strikeATM)/(MKTSWAPTION.impliedvol*sqrt(ttm));
+payoffDiscount = findDiscount(MKTSWAPTION.optionmaturity,PD);
 m = 1; % in the EUR market
 
-% swaption price
-% MKTSWAPTION.px = fixedDiscounts(end)*c(m,swapRate)*((strikeATM - swapRate)*normcdf(-d) + MKTSWAPTION.impliedvol*sqrt(ttm)*normpdf(d));
-price = fixedDiscounts(1)*c(m,sRate)*((strikeATM - sRate)*normcdf(-d) + MKTSWAPTION.impliedvol*sqrt(ttm)*normpdf(d));
+c = @(s) 1./s*(1 - 1/(1+s./m)^(tenor));
+K = MKTSWAPTION.strike; 
 
+ttm = yearfrac(MKTSWAPTION.settledate,MKTSWAPTION.optionmaturity,optionConv); % time to maturity
+d = (sRate - K)/(MKTSWAPTION.impliedvol*sqrt(ttm));
+
+% swaption price
+PX = payoffDiscount*c(sRate)*((K - sRate)*normcdf(-d) + MKTSWAPTION.impliedvol*sqrt(ttm)*normpdf(d));
 
 end % priceSwaption
