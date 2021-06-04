@@ -1,37 +1,31 @@
-function PARAM = calibrationMHW(MKTSWAPTION, PD, P)
+function PARAM = calibrateMHW(MKTSWAPTION, PD, P)
 %
 %
 %        
 %
 %
 
+priceMKT = [MKTSWAPTION.px]';
+priceMHW = priceFunctionCSSMHW(MKTSWAPTION(1),PD, P);
+lsError = @(p) (priceMHW(p) - priceMKT(1)).^2;
 
-priceMKT = zeros(9,1);
-priceMKT(1) = priceSwaption(mktSwaption(1), PD,P);
-
-price = priceSwaptionMHW(mktSwaption(1),PD, P);
-priceMHW = @(p) price(p); 
-
-for i = 2:9
-% MKTSWAPTION(i).px = priceSwaption(MKTSWAPTION, DISCOUNT); 
-% i = 1;
-    priceMKT(i) = priceSwaption(mktSwaption(i), PD,P);
-    price = priceSwaptionMHW(mktSwaption(i),PD, P);
-    priceMHW = @(p) [priceMHW(p); price(p)]; 
+for ii = 2:9
+    %priceMHW = computationalIntegrand(MKTSWAPTION(ii),PD, P);
+    priceMHW = priceFunctionCSSMHW(MKTSWAPTION(ii),PD, P);
+    lsError = @(p) lsError(p) + (priceMHW(p) - priceMKT(ii)).^2;
 end
 
+G = linspace(0,1,10);
+startPARAM = [0.13;0.001;0];
+minFVal = 100;
 
-% figure
-% plot([1:9],priceMKT,'ro-')
-% hold on
-% plot([1:9],priceMHW,'bo-')
-% legend('price_{MKT}','price_{MHW}')
-
-% param = [12.94/100; 1.26/100; 0.07/100];
-param0 = [12/100; 1/100; 0/100]; % messo solo per vedere se dandogli questi com inizio trova quelli giusti: no
-
-
-error = @(p) sum((priceMHW(p) - priceMKT).^2);
-
-PARAM = fmincon(error,param0,[],[],[],[],[0; 0; 0],[+inf,+inf,1]) 
-
+for ii = 1:numel(G)
+    w = waitbar(ii/numel(G));
+    [param, fVal] = fmincon(@(p) lsError([p;G(ii)]), startPARAM(1:2), -eye(2), zeros(2,1));
+    if fVal < minFVal
+        minFVal = fVal;
+        PARAM = [param;G(ii)];
+    end
+end
+close(w)
+end
