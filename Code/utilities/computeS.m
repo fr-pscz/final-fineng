@@ -1,20 +1,20 @@
 function S = computeS(MKTSWAPTION, PD, P)
-% function that computes the underlying swap rate at option maturity
+%COMPUTES Create function handle for par swap rate in MHW model
 %
 % INPUTS:
-%        MKTSWAPTION: struct of the considered swaption. It contains:
-%        valuedate, settledate, option maturity, swapmaturity, impliedvol.
-%        PD: struct that describes the bootstrapped discount curve.
-%        It contains: t (dates) and y (discount).
-%        P = struct that describes the bootstrapped pseudodiscount curve.
-%        It contains: t (dates) and y (pseudodiscount).
+% MKTSWAPTION: struct with following fields:
+%             - settledate
+%             - optionmaturity
+%             - swapmaturity
+%
+%          PD: struct with dates and OIS-adjusted discounts
+%           P: struct with dates and EUR6M pseudodiscounts 
 %
 % OUTPUTS:
-%        S: underlying swap rate at option maturity
+%           S: underlying swap rate function handle at option maturity
 %
 % FUNCTIONS:
-%        paymentDates
-%        findDiscount
+%  paymentDates, findDiscount
 
 volaConv  = 3; % Act/365
 fixedConv = 6; %  30/360
