@@ -28,6 +28,6 @@ hold on
 plot(1:numel(mktSwaption), priceMHW, '-o', 'LineWidth', 2)
 title('MHW model fit on diagonal swaptions')
 ylim([0 0.035])
-xlabel('Option maturity')
+xlabel('Option expiry')
 ylabel('Price')
 legend('Market prices', 'MHW prices')
