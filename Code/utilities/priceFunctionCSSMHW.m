@@ -28,5 +28,5 @@ K = MKTSWAPTION.strike;
 payoffDiscount = findDiscount(MKTSWAPTION.optionmaturity,PD);
 integrand = @(x,p,s) exp(-x.^2/2)/sqrt(2*pi)*c(s)*max((K - s),0);
 
-PXFUN = @(p) payoffDiscount * integral(@(x) integrand(x,p, S(x,p)),-10,fzero(@(x) S(x,p) - K,0),'arrayvalued',true);
+PXFUN = @(p) payoffDiscount * integral(@(x) integrand(x,p, S(x,p)),-20,fzero(@(x) S(x,p) - K,0),'arrayvalued',true);
 end % priceFunctionCSSMHW
