@@ -40,6 +40,8 @@ G = [0;(cos((2.*(n:-1:1)' - 1).*0.5.*pi./n) + 1)./2;1]; % chebyshev grid
 startPARAM = [0.13;0.001;0];
 minFVal = 100;
 
+% Clear existing (past) warnings
+lastwarn('')
 
 for ii = 1:numel(G) % cycle over γs
     w = waitbar(ii/numel(G)); % give progress updates
@@ -48,6 +50,13 @@ for ii = 1:numel(G) % cycle over γs
         minFVal = fVal;
         PARAM = [param;G(ii)]; % params that minimize error given γ
     end % minimum condition
+    
+    % Instability handling
+    warnMsg = lastwarn; % supposed empty as past warnings were cleared before for loop
+    if ~isempty(warnMsg)
+        warning('[USER GENERATED] fmincon explored parameters which prevent numerical integration')
+        break
+    end
 end % cycle over γs
 close(w)
 end % calibrateMHW
