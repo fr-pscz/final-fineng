@@ -1,7 +1,10 @@
-function [outputArg1,outputArg2] = getSwapRate(inputArg1,inputArg2)
-%GETSWAPRATE Summary of this function goes here
-%   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
-end
+function PX = priceBond(MKTBOND, DISCCURVE)
 
+deltas   = yearfrac(MKTBOND.paymentdates(1:end-1),MKTBOND.paymentdates(2:end),MKTBOND.daycount);
+payments = MKTBOND.coupon.*100.*ones(numel(deltas),1).*deltas;
+payments(end) = payments(end) + 100;
+
+discounts = findDiscount(MKTBOND.paymentdates(2:end),DISCCURVE);
+
+PX = sum(deltas.*payments.*discounts);
+end
