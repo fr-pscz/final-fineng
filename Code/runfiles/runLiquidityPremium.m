@@ -17,7 +17,7 @@ load('params.mat')
 ttl = [calweeks(2); calmonths(2)];
 
 %% BNPP
-sheerLiquidityPremium(ttl, 'BNPP', mktBondBNPP, PD, params);
+liquidityPremium(ttl, 'BNPP', mktBondBNPP, PD, params);
 
 %% Santander
-sheerLiquidityPremium(ttl, 'Santander', mktBondSantander, PD, params);
+liquidityPremium(ttl, 'Santander', mktBondSantander, PD, params);
