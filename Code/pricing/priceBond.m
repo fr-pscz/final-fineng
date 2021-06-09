@@ -6,5 +6,5 @@ payments(end) = payments(end) + 100;
 
 discounts = findDiscount(MKTBOND.paymentdates(2:end),DISCCURVE);
 
-PX = sum(deltas.*payments.*discounts);
+PX = sum(payments.*discounts);
 end
