@@ -4,6 +4,7 @@ addpath('utilities')
 addpath('calibration')
 addpath('pricing')
 addpath('data')
+addpath('plots')
 
 %% Load data
 load('market.mat')
@@ -22,12 +23,10 @@ params = calibrateMHW(mktSwaption, PD, P);
 priceMHW = priceSwaptionMHW(mktSwaption,PD, P, params);
 
 %% Plot
-figure
-plot(1:numel(mktSwaption), [mktSwaption.px], '-d', 'LineWidth', 2)
-hold on
-plot(1:numel(mktSwaption), priceMHW, '-o', 'LineWidth', 2)
-title('MHW model fit on diagonal swaptions')
-ylim([0 0.035])
-xlabel('Option expiry')
-ylabel('Price')
-legend('Market prices', 'MHW prices')
+plotSwaptions([mktSwaption.px], priceMHW)
+disp('Parameters:')
+disp(['   > a = ' num2str(params(1))])
+disp(['   > σ = ' num2str(params(2))])
+disp(['   > γ = ' num2str(params(3))])
+%% Save output
+save('data/params.mat', 'params')
