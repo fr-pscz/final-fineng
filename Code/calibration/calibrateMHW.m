@@ -37,7 +37,7 @@ n = 15; % grid size
 %G = linspace(0,1,n); % linear grid
 G = [0;(cos((2.*(n:-1:1)' - 1).*0.5.*pi./n) + 1)./2;1]; % chebyshev grid 
 % initialize values for minimization
-startPARAM = [0.13;0.001;0];
+startPARAM = [1;0.1;0];
 minFVal = 100;
 
 % Clear existing (past) warnings
