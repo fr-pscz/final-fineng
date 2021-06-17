@@ -1,5 +1,5 @@
 function P = bootstrapAlternativeEUR6M(FRA, SWAP, DISCOUNTS, FLAG)
-%BOOTSTRAPEUR6M Bootstrap pseudo-discounts from swaps and FRAs
+%BOOTSTRAPALTERNATIVEEUR6M Bootstrap pseudo-discounts from swaps and FRAs
 %
 % INPUTS:
 % FRA: struct with market information contained in 5 fields: 
