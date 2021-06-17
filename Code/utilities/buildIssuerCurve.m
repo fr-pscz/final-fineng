@@ -1,5 +1,30 @@
 function BBAR = buildIssuerCurve(MKTBOND,PD,ZSPREAD)
 
+% BUILDISSUERCURVE builds the discounting curve for the considered issuer taking into account the credit risk. 
+%
+% INPUTS: 
+% MKTBOND: array of the avaiable liquid bonds of some issuer. Each bond is a struct with the following fields:
+%                - maturity
+%                - valuedate
+%                - settledate
+%                - px
+%                - coupon
+%                - yield
+%                - payment dates
+%                - daycount
+%
+% PD:      struct with dates and OIS-adjusted discounts
+% 
+% ZSPREAD: struct with the following fields:
+%               - t: dates
+%               - y: Z-spreads
+%
+% OUTPUTS:
+% BBAR: credit-risk adjusted discounting curve for the considered issuer.
+%
+% FUNCTIONS:
+% findDiscount
+
 convSpreads = 3; % Act/365
 
 dates = [];
