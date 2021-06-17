@@ -11,10 +11,15 @@ function Z = getZeta(MKTBOND, PD, Z)
 %                       - px:           clean price of the bond
 % PD:      struct with dates and discounts of OIS rate
 %
-% Z:       Zspread curve already bootstrapped  
+% Z:       Zspread curve already bootstrapped: struct with the following fields:
+%                       - t: dates
+%                       - y: Z-spreads  
 %
 % OUTPUTS: 
 % Z:       Zspread curve updated up to the given bond maturity.
+%
+% FUNCTIONS: 
+% findDiscount
 
 convSpreads = 3; % Act/365
 % compute payment periods and coupons+notional
