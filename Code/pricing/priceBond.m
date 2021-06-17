@@ -1,6 +1,6 @@
 function PX = priceBond(MKTBOND, DISCCURVE)
 
-% PRICEBOND computes the clean price of the given Bond
+% PRICEBOND computes the dirty price of the given Bond
 %
 % INPUTS: 
 % MKTBOND:    struct containing the infromation of the bond in the following fields
@@ -14,7 +14,7 @@ function PX = priceBond(MKTBOND, DISCCURVE)
 %
 %
 % OUTPUTS: 
-% PX:      clean price of the given bond.
+% PX:         dirty price of the given bond.
 %
 % FUNCTIONS:
 % findDiscount
