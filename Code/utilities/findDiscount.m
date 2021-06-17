@@ -1,5 +1,5 @@
 function B = findDiscount(DATES, DISCOUNT)
-% function that computes the discounts of an array of dates given the
+%FINDDISCOUNT function that computes the discounts of an array of dates given the
 % discount curve and its corresponding dates
 %
 % INPUTS:
