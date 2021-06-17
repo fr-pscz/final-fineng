@@ -1,5 +1,5 @@
 function B = findDiscountAlternative(DATES, DISCOUNT, FLAG)
-% function that computes the discounts of an array of dates given the
+%FINDDISCOUNTALTERNATIVE function that computes the discounts of an array of dates given the
 % discount curve and its corresponding dates and the chosen interpolation
 % rule
 %
@@ -41,14 +41,5 @@ elseif FLAG == 3 % loglinear on discounts
     B = exp(logDiscDates);
 
 end
-
-
-
-
-
-
-
-
-
 
 end % findDiscount
