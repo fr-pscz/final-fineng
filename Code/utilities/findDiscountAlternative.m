@@ -35,7 +35,7 @@ elseif FLAG == 2 % spline on discounts
 
     B = interp1(DISCOUNT.t, DISCOUNT.y, DATES, 'spline');
 
-else 
+elseif FLAG == 3 % loglinear on discounts 
     logDisc = log(DISCOUNT.y);
     logDiscDates = interp1(DISCOUNT.t ,logDisc ,DATES);
     B = exp(logDiscDates);
