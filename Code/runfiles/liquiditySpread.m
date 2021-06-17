@@ -40,7 +40,6 @@ legend(legendText, 'Location', 'northwest')
 datetick
 ylabel('Yield (bps)')
 xlabel('Maturity')
-set(gca, 'FontSize', 15)
 box on
 grid on
 end
