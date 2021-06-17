@@ -3,11 +3,15 @@ function PX = priceBond(MKTBOND, DISCCURVE)
 % PRICEBOND computes the clean price of the given Bond
 %
 % INPUTS: 
-% MKTBOND: struct containing the infromation of the bond in the following fields
-%                       - settledate:   settlement date 
-%                       - paymentdates: array of payment dates of the coupons of the bond, considering next-buisness date convenction
-%                       - coupon:       array of coupons in percentage
-%                       - daycount:     daycount convenction used for the coupons
+% MKTBOND:    struct containing the infromation of the bond in the following fields
+%                          - settledate:   settlement date 
+%                          - paymentdates: array of payment dates of the coupons of the bond, considering next-buisness date convenction
+%                          - coupon:       array of coupons in percentage
+%                          - daycount:     daycount convenction used for the coupons
+%
+% DISCCURVE:  struct containing the dates and discounts of the discounting curve  
+%
+%
 %
 % OUTPUTS: 
 % PX:      clean price of the given bond.
