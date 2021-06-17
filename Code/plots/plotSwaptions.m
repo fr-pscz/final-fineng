@@ -1,7 +1,7 @@
 function [] = plotSwaptions(MKT, MHW)
     figure
-    hold on
     plot(1:numel(MKT), 100.*MKT, '.-', 'LineWidth', 2, 'MarkerSize', 20)
+    hold on
     plot(1:numel(MHW), 100.*MHW, '.-', 'LineWidth', 2, 'MarkerSize', 20)
     legend('Market prices','Multi-Hull-White prices', 'Location', 'southwest')
     title('Diagonal receiver swaption prices')
