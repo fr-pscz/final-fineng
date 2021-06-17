@@ -22,6 +22,7 @@ function Z = bootstrapZspreads(MKTBOND,PD)
 % FUNCTIONS:
 % getZeta
 
+% Z-spread for the first market bond
 Z = getZeta(MKTBOND(1), PD);
 
 for ii = 2:numel(MKTBOND)
