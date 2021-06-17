@@ -23,6 +23,7 @@ params = calibrateMHW(mktSwaption, PD, P);
 priceMHW = priceSwaptionMHW(mktSwaption,PD, P, params);
 
 %% Plot
+figure
 plotSwaptions([mktSwaption.px], priceMHW)
 disp('Parameters:')
 disp(['   > a = ' num2str(params(1))])
