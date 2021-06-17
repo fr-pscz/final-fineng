@@ -27,15 +27,17 @@ plotCurve([PD; P])
 scriptOutputs = {'PD', 'P', 'zD', 'z'};
 save('data/curves.mat', scriptOutputs{:})
 
-
+%% Alternative interpolation
 figure
 P  = bootstrapAlternativeEUR6M(mktFRA, mktSwap, PD);
 plot(P.t, P.y, '-', 'LineWidth', 2);
 
 for ii = 1:3
     hold on
-    P1  = bootstrapAlternativeEUR6M(mktFRA, mktSwap, PD, ii); 
-    plot(P1.t, P1.y, '-', 'LineWidth', 2);
-    fprintf('Max interpolation error using FLAG = %d is %e \n ', [ii; max(abs(P.y - P1.y))] )
+     P1  = bootstrapAlternativeEUR6M(mktFRA, mktSwap, PD, ii); 
+     plot(P1.t, P1.y, '-', 'LineWidth', 2);
+     fprintf('Max interpolation error using FLAG = %d is %e \n ', [ii; max(abs(P.y - P1.y))] )
 end
+grid on
+datetick
 legend('Linear on rates', 'Spline on rates', 'Spline on disc', 'log linear on disc');
