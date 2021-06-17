@@ -14,7 +14,6 @@ function [] = plotCurve(CURVES)
     datetick
     ylabel('B(t,T)')
     xlabel('T')
-    set(gca, 'FontSize', 15)
     box on
     grid on
 end
