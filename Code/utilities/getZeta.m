@@ -1,5 +1,21 @@
 function Z = getZeta(MKTBOND, PD, Z)
 
+% GETZETA Updates the bootstrap of the Zspreads up to the given bond maturity. 
+%
+% INPUTS: 
+% MKTBOND: struct containing the infromation of the bond in the following fields
+%                       - settledate:   settlement date 
+%                       - paymentdates: array of payment dates of the coupons of the bond, considering next-buisness date convenction
+%                       - coupon:       array of coupons in percentage
+%                       - daycount:     daycount convenction used for the coupons
+%                       - px:           clean price of the bond
+% PD:      struct with dates and discounts of OIS rate
+%
+% Z:       Zspread curve already bootstrapped  
+%
+% OUTPUTS: 
+% Z:       Zspread curve updated up to the given bond maturity.
+
 convSpreads = 3; % Act/365
 % compute payment periods and coupons+notional
 deltas   = yearfrac(MKTBOND.paymentdates(1:end-1),MKTBOND.paymentdates(2:end),MKTBOND.daycount);
