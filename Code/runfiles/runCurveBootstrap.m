@@ -18,7 +18,7 @@ P  = bootstrapEUR6M(mktFRA, mktSwap, PD);
 P.name = 'Euribor 6M';
 z  = disc2zero(P.y(2:end), P.t(2:end), P.t(1), -1, 3);
 
-figure(1)
+figure
 %% Plot
 plotCurve([PD; P])
 
@@ -28,7 +28,7 @@ scriptOutputs = {'PD', 'P', 'zD', 'z'};
 save('data/curves.mat', scriptOutputs{:})
 
 
-figure(2)
+figure
 P  = bootstrapAlternativeEUR6M(mktFRA, mktSwap, PD);
 plot(P.t, P.y, '-', 'LineWidth', 2);
 
