@@ -1,14 +1,15 @@
 function Y = getYield(MKTBOND)
 
-% GETYIELD computes the yield of a given Bond
+% GETYIELD computes the yield of the given Bond
 %
 % INPUTS: 
 % MKTBOND: struct containing the infromation of the bond in the following fields
-%                       - settledate: settlement date 
+%                       - settledate:   settlement date 
 %                       - paymentdates: array of payment dates of the coupons of the bond, considering next-buisness date convenction
-%                       - coupon: array of coupons in percentage
-%                       - daycount: daycount convenction used for the coupons
-%                       - invoice: dirty price of the bond (if not present the function computes the clean price)
+%                       - coupon:       array of coupons in percentage
+%                       - daycount:     daycount convenction used for the coupons
+%                       - px:           clean price of the bond
+%                       - invoice:      dirty price of the bond (if not present the function computes it from the clean price)
 %
 %
 % OUTPUTS
