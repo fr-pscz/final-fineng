@@ -26,9 +26,13 @@ convSpreads = 3; % Act/365
 deltas   = yearfrac(MKTBOND.paymentdates(1:end-1),MKTBOND.paymentdates(2:end),MKTBOND.daycount);
 payments = MKTBOND.coupon.*100.*ones(numel(deltas),1).*deltas;
 payments(end) = payments(end) + 100;
+
+% find discounts for the payment dates and the dirty price of the bond
 discounts = findDiscount(MKTBOND.paymentdates(2:end), PD);
 dirtyPX = MKTBOND.px + MKTBOND.coupon.*100.*yearfrac(MKTBOND.paymentdates(1),MKTBOND.settledate,MKTBOND.daycount);
 
+% if there isn't any Z-spread curve as input then the function computes the
+% Z-spread of the first bond
 if nargin < 3
     %% First bond
     f = @(z) sum(...
@@ -42,11 +46,14 @@ if nargin < 3
     Z.t = [MKTBOND.settledate; MKTBOND.maturity];
 else
     %% Following bonds
+     % index of the last payment date for which the Z-spread has already been computed
     idxPrev = find(MKTBOND.paymentdates(2:end) <= Z.t(end), 1, 'last');
     discounts(1:idxPrev) = ...
         discounts(1:idxPrev).*exp(...
             -interp1(Z.t, Z.y, MKTBOND.paymentdates(2:idxPrev+1))...
             .*yearfrac(MKTBOND.settledate, MKTBOND.paymentdates(2:idxPrev+1),convSpreads));
+    % interpolation on the following dates where the unknown is the
+    % Z-spread at maturity date       
     f = @(z) sum(...
         payments(idxPrev+1:end).*discounts(idxPrev+1:end).*...
         exp(...
@@ -54,6 +61,7 @@ else
            yearfrac(MKTBOND.settledate, MKTBOND.paymentdates(idxPrev+2:end),convSpreads)...
         ));
     
+    % Z-spread values and dates are updated
     Z.y(end+1) = fzero(@(z) f(z) - dirtyPX + sum(payments(1:idxPrev).*discounts(1:idxPrev)), 0);
     Z.t(end+1) = MKTBOND.maturity;
 end
