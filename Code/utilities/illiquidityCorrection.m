@@ -1,4 +1,15 @@
 function ILLIQUIDCURVE = illiquidityCorrection(TTL, BBAR, ZSPREAD, PARAMS, BOUND)
+%ILLIQUIDITYCORRECTION Generates issuer discount curve accounting for both liquidity and credit risk
+%
+% INPUTS:
+%           TTL: calendar duration for time-to-liquidate
+%          BBAR: curve struct for the issuer discount curve
+%       ZSPREAD: curve struct for the issuer Z-Spreads
+%        PARAMS: array [a; σ; γ] for MHW parameters
+%         BOUND: string specifying 'upper' (default) or 'lower' bound
+%
+% OUTPUTS:
+% ILLIQUIDCURVE: curve struct for the illiquid issuer discount curve ("B-double-bar" in the literature)
 
 convSpreads = 3; % Act/365
 tau = datenum(datetime(BBAR.t(1), 'ConvertFrom', 'datenum') + TTL);
