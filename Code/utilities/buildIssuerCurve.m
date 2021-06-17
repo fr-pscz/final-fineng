@@ -20,13 +20,16 @@ function BBAR = buildIssuerCurve(MKTBOND,PD,ZSPREAD)
 %               - y: Z-spreads
 %
 % OUTPUTS:
-% BBAR: credit-risk adjusted discounting curve for the considered issuer.
+% BBAR: discounting curve adjusted to the credit risk for the considered issuer: struct with the two fields:
+%               - t: array of payment dates of given bonds
+%               - y: array of defaultable discounts for the corresponding dates
 %
 % FUNCTIONS:
 % findDiscount
 
 convSpreads = 3; % Act/365
 
+% putting all the coupon payment dates of the given bonds in cronological order
 dates = [];
 for ii = 1:numel(MKTBOND)
     dates = [dates; MKTBOND(ii).paymentdates(2:end)];
@@ -35,14 +38,15 @@ end
 dates = sort(dates,'ascend');
 dates = unique(dates);
 
+% computing the credit-risk discounts using the Z-spreads
 BBAR.y = findDiscount(dates, PD).*exp(...
             -interp1(ZSPREAD.t, ZSPREAD.y, dates)...
             .*yearfrac(MKTBOND(1).settledate, dates, convSpreads));
 BBAR.t = dates;
         
-
+% adding settledate
 if dates(1) ~= MKTBOND(1).settledate
     BBAR.y = [1; BBAR.y];
     BBAR.t = [MKTBOND(1).settledate; BBAR.t];
 end
-end
+end % buildIssuerCurve
