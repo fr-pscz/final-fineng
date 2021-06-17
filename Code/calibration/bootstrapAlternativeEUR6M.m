@@ -29,7 +29,8 @@ function P = bootstrapAlternativeEUR6M(FRA, SWAP, DISCOUNTS, FLAG)
 
 
 if nargin < 4
-    FLAG = [];
+    P = bootstrapEUR6M(FRA, SWAP, DISCOUNTS);
+    return
 end
 
 %% Extracting arrays from inputs
