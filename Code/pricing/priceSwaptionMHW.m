@@ -1,5 +1,6 @@
 function PX = priceSwaptionMHW(MKTSWAPTION, PD, P, PARAM)
 % PRICESWAPTIONMHW function that computes the price of swaptions according to a multi-curve Hull and White
+%
 % INPUTS:
 % MKTSWAPTION: struct with following fields:
 %             - settledate
