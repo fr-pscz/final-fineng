@@ -42,7 +42,6 @@ legend(legendText, 'Location', 'northwest')
 datetick
 ylabel('Difference')
 xlabel('Maturity')
-set(gca, 'FontSize', 12)
 box on
 grid on
 end
