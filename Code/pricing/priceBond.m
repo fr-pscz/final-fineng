@@ -1,15 +1,10 @@
 function PX = priceBond(MKTBOND, DISCCURVE)
 
-% PRICEBOND computes the dirty price of the given Bond
+% PRICEBOND computes the dirty price of a bond given a discount curve
 %
 % INPUTS: 
 % MKTBOND: struct with the following fields:
-%             - maturity
-%             - valuedate
-%             - settledate
-%             - px
 %             - coupon
-%             - yield
 %             - payment dates
 %             - daycount
 %
@@ -18,7 +13,7 @@ function PX = priceBond(MKTBOND, DISCCURVE)
 %
 %
 % OUTPUTS: 
-% PX:         dirty price of the given bond.
+% PX:         dirty price of the given bond
 %
 % FUNCTIONS:
 % findDiscount
