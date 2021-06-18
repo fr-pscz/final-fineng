@@ -2,13 +2,16 @@ function MKTFRACONVEX = convexityAdjFRA(MKTFRA, PARAMS)
 %CONVEXITYADJFRA Convexity adjustment for forward rate agreements
 %
 % INPUTS:
-%   MKTFRA: struct with following fields: 
+%       MKTFRA: struct array with following fields:
+%             - settledate
+%             - startdate
+%             - enddate
+%             - rate
 %
-%   PARAMS:          struct with dates and OIS-adjusted discounts
+%       PARAMS: array [a; σ; γ] for MHW parameters
 %
-% OUTPUTS: 
-%
-% FUNCTIONS:
+% OUTPUTS:
+% MKTFRACONVEX: struct array of FRAs with adjusted rate
 
 convVol = 3; % Act/365
 convFRA = 2; % Act/360
