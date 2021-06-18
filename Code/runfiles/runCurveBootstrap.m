@@ -40,4 +40,4 @@ for ii = 1:3
 end
 grid on
 datetick
-legend('Linear on rates', 'Spline on rates', 'Spline on disc', 'log linear on disc');
+legend('Linear on zero rates', 'Spline on zero rates', 'Spline on discounts', 'Log-linear on discounts');
